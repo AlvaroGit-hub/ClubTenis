@@ -1,0 +1,126 @@
+drop database if exists tennis;
+create database tennis;
+
+use tennis;
+
+create or replace table administradores(
+	codigo_a int auto_increment,
+	nombre varchar(20),
+	apellidos varchar(30),
+	primary key (codigo_a)
+);
+
+create or replace table torneos(
+	codigo_t int auto_increment,
+	nombre varchar(20),
+	organizadores varchar(1000),
+	numero_p int(4),
+	fecha varchar(50),
+	primary key (codigo_t)
+);
+
+
+create or replace table reservas(
+	codigo_r int auto_increment,
+	quien varchar(20),
+	cuando varchar(40),
+	pista int(3),
+	codigo_a int(3),
+	primary key (codigo_r)
+);
+
+
+create or replace table organizan(
+	codigo_o int auto_increment,
+	codigo_t int(3),
+	codigo_a int(3),
+	primary key (codigo_o)
+);
+
+
+create or replace table usuarios(
+	codigo_u int auto_increment,
+	dni varchar(9),
+	nombre varchar(20),
+	apellidos varchar(30),
+	saldo float(6,2),
+	codigo_r int(3),
+	primary key (codigo_u)
+);
+
+create or replace table socios(
+	codigo_s int auto_increment,
+	dni varchar(9),
+	nombre varchar(20),
+	apellidos varchar(30),
+	saldo float(6,2),
+	primary key (codigo_s)
+);
+
+
+
+create or replace table pistas(
+	codigo_p int auto_increment,
+	nombre varchar(20),
+	tipo varchar(20),
+	ubicacion varchar(20),
+	codigo_r int(3),
+	primary key (codigo_p)
+);
+
+
+
+ALTER TABLE reservas
+  ADD CONSTRAINT fk_codigo_admin
+  FOREIGN KEY (codigo_a)
+  REFERENCES administradores(codigo_a);
+ 
+ 
+ALTER TABLE usuarios
+  ADD CONSTRAINT fk_codigo_r
+  FOREIGN KEY (codigo_r)
+  REFERENCES reservas(codigo_r);
+ 
+ ALTER TABLE pistas
+  ADD CONSTRAINT fk_codigo_rp
+  FOREIGN KEY (codigo_r)
+  REFERENCES reservas(codigo_r);
+
+
+
+
+ 
+insert into administradores(nombre,apellidos) values('Pepe','Martinez');
+insert into administradores(nombre,apellidos) values('Mario','Gonzalez');
+insert into administradores(nombre,apellidos) values('Juan','Martinez');
+insert into administradores(nombre,apellidos) values('Diego','Ruiz');
+insert into administradores(nombre,apellidos) values('Pepe','Rodriguez');
+
+
+
+insert into torneos(nombre,organizadores,numero_p,fecha) values('Torneo 1','Mario','4','14-12-2022');
+insert into torneos(nombre,organizadores,numero_p,fecha) values('Torneo 2','Diego','2','27-12-2022');
+
+
+insert into socios(nombre,apellidos,dni,saldo) values('Manolo','Perez','87375012F',54.3);
+insert into socios(nombre,apellidos,dni,saldo) values('Paco','Gutierrez','84750234R',12.89);
+insert into socios(nombre,apellidos,dni,saldo) values('Marta','Ruiz','93847523T',46.89);
+
+insert into usuarios(nombre,apellidos,dni,saldo) values('Maria','Ruiz','47592485G',78.23);
+insert into usuarios(nombre,apellidos,dni,saldo) values('Laura','Perez','32847132L',23.32);
+insert into usuarios(nombre,apellidos,dni,saldo) values('Carlos','Martinez','37465923V',23.31);
+
+
+insert into reservas(quien,cuando,pista) values('Maria','16-12-2022','3');
+insert into reservas(quien,cuando,pista) values('Carlos','16-12-2022','2');
+insert into reservas(quien,cuando,pista) values('Marta','12-12-2022','7');
+
+
+
+insert into pistas(nombre,tipo,ubicacion) values('Pista 1','Tierra','Interior');
+insert into pistas(nombre,tipo,ubicacion) values('Pista 2','Tierra','Interior');
+insert into pistas(nombre,tipo,ubicacion) values('Pista 3','Tierra','Interior');
+insert into pistas(nombre,tipo,ubicacion) values('Pista 4','Hierba','Exterior');
+insert into pistas(nombre,tipo,ubicacion) values('Pista 5','Hierba','Exterior');
+insert into pistas(nombre,tipo,ubicacion) values('Pista 6','Hierba','Exterior');
+insert into pistas(nombre,tipo,ubicacion) values('Pista 7','Hierba','Exterior');
